@@ -1,31 +1,31 @@
-# .github/workflows/deploy.yml
 name: Deploy Vite React App
 
 on:
   push:
     branches:
-      - main   # or your default branch
+      - main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repo
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20 # or 20, depending on your project
+          node-version: 20
 
-      # 3. Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # 4. Build Vite app
       - name: Build project
         run: |
           echo "VITE_API_URL=$VITE_API_URL" >> .env
@@ -33,7 +33,6 @@ jobs:
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
-      # 5. Deploy (example: GitHub Pages)
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
